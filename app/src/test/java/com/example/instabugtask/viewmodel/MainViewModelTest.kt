@@ -116,7 +116,7 @@ class MainViewModelTest {
 
     val expectedQueries = mapOf(newQueryParameter to newQueryValue)
 
-    assertEquals(expectedQueries, fakeViewModel.state.querys)
+    assertEquals(expectedQueries, fakeViewModel.state.queries)
   }
 
   @Test
@@ -131,7 +131,7 @@ class MainViewModelTest {
 
     val expectedQueries = emptyMap<String , String>()
 
-    assertEquals(expectedQueries, fakeViewModel.state.querys)
+    assertEquals(expectedQueries, fakeViewModel.state.queries)
   }
   @Test
   fun `onEvent should clear headers correctly for OnRequestTypeChanged event`() {
@@ -145,7 +145,7 @@ class MainViewModelTest {
 
     val expectedHeaders = emptyMap<String , String>()
 
-    assertEquals(expectedHeaders, fakeViewModel.state.querys)
+    assertEquals(expectedHeaders, fakeViewModel.state.queries)
   }
 
 }

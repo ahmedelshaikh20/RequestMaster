@@ -24,6 +24,7 @@ import com.example.instabugtask.navigation.Navigation
 import com.example.instabugtask.repository.AppRepositoryImpl
 import com.example.instabugtask.ui.theme.InstabugTaskTheme
 import com.example.instabugtask.utils.networkutils.NetworkBroadcastReceiver
+import com.example.instabugtask.utils.networkutils.NetworkUtils
 import com.example.instabugtask.viewmodel.LogsViewModel
 import com.example.instabugtask.viewmodel.LogsViewModelFactory
 import com.example.instabugtask.viewmodel.MainViewModel
@@ -33,21 +34,9 @@ class MainActivity : ComponentActivity() {
   val networkBroadcastReceiver = NetworkBroadcastReceiver()
 
 
-  val headers = mapOf(
-    "Content-Type" to "application/multipart/form-data",
-    // Add more headers as needed
-  )
-  val querys = mapOf(
-    "page" to "2"
-  )
-  val jsonRequestBody = """
-     {
-    "name": "ahmed",
-    "job": "leader"
-     }
-    """.trimIndent()
-
   override fun onCreate(savedInstanceState: Bundle?) {
+
+    NetworkUtils.init(this.applicationContext)
 
     super.onCreate(savedInstanceState)
 

@@ -8,7 +8,7 @@ data class MainScreenState(
   val requestType: RequestType = RequestType.GetRequest,
   val headers: Map<String, String>,
   //
-  val querys: Map<String, String>,
+  val queries: Map<String, String>,
   val currentHeader: String,
   val currentKey: String,
   val currentRequest: ResponseInfo? = null,
@@ -32,7 +32,7 @@ fun getEmptyState(): MainScreenState {
   return MainScreenState(
     "",
     headers = mapOf(),
-    querys = mapOf(),
+    queries = mapOf(),
     currentHeader = "",
     currentKey = "",
     currentRequest = null,

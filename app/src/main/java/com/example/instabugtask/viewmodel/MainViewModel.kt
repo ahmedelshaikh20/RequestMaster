@@ -7,17 +7,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.instabugtask.api.model.Response
-import com.example.instabugtask.api.model.toDomain
 import com.example.instabugtask.domain.repository.Repository
 import com.example.instabugtask.ui.screens.main.MainScreenUiEvents
 import com.example.instabugtask.ui.screens.main.getEmptyState
 import com.example.instabugtask.ui.screens.main.model.RequestType
+import com.example.instabugtask.utils.networkutils.NetworkUtils
 import com.example.instabugtask.utils.threadutils.runInBackground
 import com.example.instabugtask.utils.threadutils.runInUiThread
 import org.json.JSONObject
 import java.net.UnknownHostException
-import kotlin.concurrent.thread
 
 
 class MainViewModel(private val repository: Repository) :
@@ -46,7 +44,7 @@ class MainViewModel(private val repository: Repository) :
       }
 
       MainScreenUiEvents.OnExecuteClick -> {
-        Log.d("New Url", "${state.url} is ${URLUtil.isValidUrl(state.url)} ")
+
         when (state.requestType) {
           RequestType.GetRequest -> {
 
@@ -57,11 +55,13 @@ class MainViewModel(private val repository: Repository) :
 
             runInBackground {
               try {
+                if (NetworkUtils.checkNetworkAvailability())
+                      throw Exception("No internet Connection")
                 val res =
                   repository.executeGetApiRequest(
                     StringBuilder(state.url),
                     state.headers,
-                    state.querys
+                    state.queries
                   )
                 runInUiThread {
                   state = state.copy(currentRequest = res)
@@ -88,6 +88,8 @@ class MainViewModel(private val repository: Repository) :
 
             runInBackground {
               try {
+                if (!NetworkUtils.checkNetworkAvailability())
+                  throw Exception("No internet Connection")
                 state.requestBodyMap
                 val res = repository.executePostApiRequest(
                   (state.url),
@@ -122,6 +124,8 @@ class MainViewModel(private val repository: Repository) :
             }
             runInBackground {
               try {
+                if (!NetworkUtils.checkNetworkAvailability())
+                  throw Exception("No internet Connection")
                 val res =
                   repository.executePostApiRequestWithFile(state.url, state.filePath, state.headers)
                 runInUiThread {
@@ -155,7 +159,7 @@ class MainViewModel(private val repository: Repository) :
           isAddParameterClicked = false,
           isAddJsonBodyClicked = false,
           headers = mapOf(),
-          querys = mapOf(),
+          queries = mapOf(),
           filePath = null,
 
           )
@@ -179,8 +183,8 @@ class MainViewModel(private val repository: Repository) :
       }
 
       MainScreenUiEvents.OnAddQueryClick -> {
-        val updatedQuerys = state.querys + (state.queryParameter to state.queryValue)
-        state = state.copy(querys = updatedQuerys, queryParameter = "", queryValue = "")
+        val updatedQuerys = state.queries + (state.queryParameter to state.queryValue)
+        state = state.copy(queries = updatedQuerys, queryParameter = "", queryValue = "")
       }
 
       is MainScreenUiEvents.JsonKeyChange -> {
