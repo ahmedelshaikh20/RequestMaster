@@ -22,4 +22,5 @@
   <string name="add_json">Add</string>
   <string name="add_json_body">Add Json Body</string>
   <string name="add_file">Add File</string>
+  <string name="storage_permission_needed">Storage Permission Needed</string>
 </resources>
