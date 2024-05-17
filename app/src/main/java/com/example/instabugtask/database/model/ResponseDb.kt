@@ -13,4 +13,5 @@ data class ResponseDb(
   val responseHeaders:String?,
   val queryParameters : String?,
   val error : String?,
+  val filePath : String?
 )

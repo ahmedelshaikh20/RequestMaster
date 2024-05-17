@@ -15,6 +15,7 @@ data class Response(
   val responseHeaders: String?,
   val queryParameters: String?,
   val error: String?,
+  val filePath : String?
 )
 
 
@@ -31,7 +32,9 @@ fun Response.toDomain(): ResponseInfo {
     requestHeaders,
     responseHeaders,
     queryParameters,
-    error
+    error,
+    filePath
+
   )
 
 }

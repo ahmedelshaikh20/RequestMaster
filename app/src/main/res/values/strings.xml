@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Instabug Task</string>
+    <string name="enter_url_here">Enter URL Here</string>
+  <string name="website_example">https://example.com</string>
+  <string name="get_request_type">GET</string>
+  <string name="post_request">POST</string>
+  <string name="post_with_file_request">POST WITH FILE</string>
+  <string name="header_key_label">Header Key</string>
+  <string name="header_value_label">Header Value</string>
+  <string name="add_header_button">Add Header</string>
+  <string name="query_parameter_label">Query Parameter</string>
+  <string name="query_value_label">Query Value</string>
+  <string name="add_query_button">Add Query</string>
+  <string name="add_parameters_button">Add Parameters</string>
+  <string name="close_button">Close</string>
+  <string name="execute_button">Execute</string>
+  <string name="clear_button">Clear</string>
+  <string name="request_result">Request Result</string>
+  <string name="request_details">Request Details</string>
+  <string name="json_key_label">Json Key</string>
+  <string name="json_value_label">Json Value</string>
+  <string name="add_json">Add</string>
+  <string name="add_json_body">Add Json Body</string>
+  <string name="add_file">Add File</string>
 </resources>

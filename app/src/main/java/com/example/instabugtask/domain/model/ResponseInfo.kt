@@ -16,6 +16,8 @@ data class ResponseInfo(
   val responseHeaders:String?,
   val queryParameters : String?,
   val error : String?,
+  val filePath : String?
+
 )
 
 

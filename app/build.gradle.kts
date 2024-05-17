@@ -79,6 +79,7 @@ dependencies {
   debugImplementation("androidx.compose.ui:ui-test-manifest")
   testImplementation ("org.junit.platform:junit-platform-commons:1.10.2")
 
-  testImplementation ("org.mockito:mockito-core:3.11.2")
+//  testImplementation ("org.mockito:mockito-core:3.11.2")
+  testImplementation ("io.mockk:mockk:1.13.10")
 
 }

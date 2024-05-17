@@ -19,8 +19,10 @@ fun Cursor.toDomain(): ResponseInfo {
     responseHeaders = this.getString(this.getColumnIndex(RequestsTable.RESPONSE_HEADERS)),
     queryParameters = this.getString(this.getColumnIndex(RequestsTable.QUERY_PARAMETERS)),
     error = this.getString(this.getColumnIndex(RequestsTable.ERROR)),
-    responseStatus = this.getString(this.getColumnIndex(RequestsTable.RESPONSE_STATUS))
-  )
+    responseStatus = this.getString(this.getColumnIndex(RequestsTable.RESPONSE_STATUS)),
+    filePath = this.getString(this.getColumnIndex(RequestsTable.FILE_PATH)),
+
+    )
 }
 
 fun ResponseInfo.toDb(): ResponseDb {
@@ -36,6 +38,7 @@ fun ResponseInfo.toDb(): ResponseDb {
     requestHeaders,
     responseHeaders,
     queryParameters,
-    error
+    error,
+    filePath
   )
 }

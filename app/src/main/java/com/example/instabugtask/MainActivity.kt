@@ -18,7 +18,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
-import com.example.instabugtask.api.ApiService
+import com.example.instabugtask.api.ApiServiceImpl
 import com.example.instabugtask.database.DatabaseHelper
 import com.example.instabugtask.navigation.Navigation
 import com.example.instabugtask.repository.AppRepositoryImpl
@@ -32,7 +32,8 @@ import com.example.instabugtask.viewmodel.MainViewModelFactory
 
 class MainActivity : ComponentActivity() {
   val networkBroadcastReceiver = NetworkBroadcastReceiver()
-
+  lateinit var mainViewModel: MainViewModel
+  lateinit var logViewModel: LogsViewModel
 
   override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -41,12 +42,12 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
 
     val dbHandler = DatabaseHelper(this)
-    val apiService = ApiService()
+    val apiService = ApiServiceImpl()
     val repository = AppRepositoryImpl(apiService, dbHandler)
     val mainViewModelFactory = MainViewModelFactory(repository)
-    val mainViewModel = ViewModelProvider(this, mainViewModelFactory)[MainViewModel::class.java]
+    mainViewModel = ViewModelProvider(this, mainViewModelFactory)[MainViewModel::class.java]
     val logsViewModelFactory = LogsViewModelFactory(repository)
-    val logViewModel = ViewModelProvider(this, logsViewModelFactory)[LogsViewModel::class.java]
+    logViewModel = ViewModelProvider(this, logsViewModelFactory)[LogsViewModel::class.java]
 
     setContent {
       InstabugTaskTheme {
@@ -62,7 +63,6 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier
               .background(colorResource(id = R.color.background))
           )
-//          Navigation(viewModel = mainViewModel , logViewModel)
           Navigation(mainViewModel, logViewModel)
         }
       }

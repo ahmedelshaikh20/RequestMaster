@@ -1,5 +1,11 @@
 package com.example.instabugtask.ui.screens.logscreen
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,6 +21,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +36,9 @@ import com.example.instabugtask.viewmodel.LogsViewModel
 
 @Composable
 fun LogScreen(viewModel: LogsViewModel, navController: NavHostController) {
+  val context = LocalContext.current
+  val openFileLauncher =
+    rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
   LaunchedEffect(key1 = true) {
     viewModel.getAllLogs()
   }
@@ -84,7 +94,7 @@ fun LogScreen(viewModel: LogsViewModel, navController: NavHostController) {
       )
     ) {
       items(state.currentLogs) {
-        ExpandableCard(responseInfo = it)
+        ExpandableCard(onFilePathClicked = { openFile(context , it, openFileLauncher) },responseInfo = it)
         Divider()
       }
     }
@@ -93,4 +103,15 @@ fun LogScreen(viewModel: LogsViewModel, navController: NavHostController) {
   }
 
 
+}
+private fun openFile(
+  context: Context,
+  filePath: String,
+  openFileLauncher: ActivityResultLauncher<Intent>
+) {
+  val fileUri = Uri.parse(filePath)
+  val openFileIntent = Intent(Intent.ACTION_VIEW, fileUri).apply {
+    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+  }
+  openFileLauncher.launch(openFileIntent)
 }

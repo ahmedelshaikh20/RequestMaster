@@ -49,14 +49,14 @@ class MainViewModel(private val repository: Repository) :
           RequestType.GetRequest -> {
 
 
-            if (!URLUtil.isValidUrl(state.url)) {
+            if (!isValidUrl(state.url)) {
               throw Exception("Invalid Url")
             }
 
             runInBackground {
               try {
-                if (NetworkUtils.checkNetworkAvailability())
-                      throw Exception("No internet Connection")
+                if (!NetworkUtils.checkNetworkAvailability())
+                  throw Exception("No internet Connection")
                 val res =
                   repository.executeGetApiRequest(
                     StringBuilder(state.url),
@@ -83,13 +83,13 @@ class MainViewModel(private val repository: Repository) :
 
           RequestType.PostRequest -> {
             if (!isValidUrl(state.url)) {
-              throw Exception("Invalid Url")
+              return showErrorMessage("Invalid Url")
             }
 
             runInBackground {
               try {
                 if (!NetworkUtils.checkNetworkAvailability())
-                  throw Exception("No internet Connection")
+                  return@runInBackground showErrorMessage("Network Connection")
                 state.requestBodyMap
                 val res = repository.executePostApiRequest(
                   (state.url),
@@ -104,15 +104,9 @@ class MainViewModel(private val repository: Repository) :
                   )
                 }
               } catch (e: UnknownHostException) {
-                state = state.copy(
-                  showToastMessage = true,
-                  currentToastMessage = "Failed Post :  UnKnown Host"
-                )
-              } catch (e: Exception) {
-                state = state.copy(
-                  showToastMessage = true,
-                  currentToastMessage = "Error Post : ${e.message}"
-                )
+                showErrorMessage("Failed Post :  UnKnown Host")
+              } catch (e: Throwable) {
+                showErrorMessage(e.message.toString())
               }
             }
           }
@@ -120,12 +114,12 @@ class MainViewModel(private val repository: Repository) :
           RequestType.PostWithFileRequest -> {
 
             if (!isValidUrl(state.url)) {
-              throw Exception("Invalid Url")
+              return showErrorMessage("Invalid Url")
             }
             runInBackground {
               try {
                 if (!NetworkUtils.checkNetworkAvailability())
-                  throw Exception("No internet Connection")
+                  return@runInBackground showErrorMessage("Network Connection")
                 val res =
                   repository.executePostApiRequestWithFile(state.url, state.filePath, state.headers)
                 runInUiThread {
@@ -135,16 +129,10 @@ class MainViewModel(private val repository: Repository) :
                     currentRequest = res
                   )
                 }
-              } catch (e: UnknownHostException) {
-                state = state.copy(
-                  showToastMessage = true,
-                  currentToastMessage = "Failed Post :  UnKnown Host"
-                )
-              } catch (e: Exception) {
-                state = state.copy(
-                  showToastMessage = true,
-                  currentToastMessage = "Failed Post Request : ${e.message}",
-                )
+              }catch (e: UnknownHostException) {
+                showErrorMessage("Failed Post :  UnKnown Host")
+              } catch (e: Throwable) {
+                showErrorMessage(e.message.toString())
               }
             }
           }
@@ -235,6 +223,13 @@ class MainViewModel(private val repository: Repository) :
 
   fun clear() {
     state = getEmptyState()
+  }
+
+  fun showErrorMessage(message: String) {
+    state = state.copy(
+      showToastMessage = true,
+      currentToastMessage = "${message}",
+    )
   }
 
 }

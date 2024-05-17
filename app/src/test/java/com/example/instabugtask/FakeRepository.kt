@@ -21,7 +21,8 @@ class FakeRepository : Repository {
       error = "",
       queryParameters = querys.toString(),
       responseHeaders = "",
-      responseStatus = "Success"
+      responseStatus = "Success",
+      filePath = "/lol/lol.txt"
     )
   }
 
@@ -41,7 +42,9 @@ class FakeRepository : Repository {
       error = "",
       queryParameters = "",
       responseHeaders = "",
-      responseStatus = "Success"
+      responseStatus = "Success",
+      filePath = "/lol/lol.txt"
+
     )
   }
 
@@ -61,19 +64,22 @@ class FakeRepository : Repository {
       error = "",
       queryParameters = "",
       responseHeaders = "",
-      responseStatus = "Success"
+      responseStatus = "Success",
+      filePath = "/lol/lol.txt"
+
     )
   }
 
   override fun getAllLogs(): List<ResponseInfo> {
-return createListResponse()
+    return createListResponse()
   }
 
   override fun filterLogs(
     requestTypes: List<String>,
     responseStatuses: List<String>
   ): List<ResponseInfo> {
-return emptyList() }
+    return emptyList()
+  }
 }
 
 fun createListResponse(): List<ResponseInfo> {
@@ -91,7 +97,9 @@ fun createListResponse(): List<ResponseInfo> {
     error = "",
     queryParameters = "",
     responseHeaders = mapOf("Header2" to "Value2").toString(),
-    responseStatus = "Success"
+    responseStatus = "Success",
+    filePath = "/lol/lol.txt"
+
   )
   responseList.add(response1)
 
@@ -106,7 +114,9 @@ fun createListResponse(): List<ResponseInfo> {
     error = "Error Message",
     queryParameters = "",
     responseHeaders = mapOf("Header4" to "Value4").toString(),
-    responseStatus = "Fail"
+    responseStatus = "Fail",
+    filePath = "/lol/lol.txt"
+
   )
   responseList.add(response2)
 
@@ -121,7 +131,9 @@ fun createListResponse(): List<ResponseInfo> {
     error = "Not Found",
     queryParameters = "param1=value1&param2=value2",
     responseHeaders = mapOf("Header6" to "Value6").toString(),
-    responseStatus = "Fail"
+    responseStatus = "Fail",
+    filePath = "/lol/lol.txt"
+
   )
   responseList.add(response3)
 
@@ -136,8 +148,10 @@ fun createListResponse(): List<ResponseInfo> {
     error = "",
     queryParameters = "param3=value3",
     responseHeaders = mapOf("Header8" to "Value8").toString(),
-    responseStatus = "Success"
+    responseStatus = "Success",
+    filePath = "/lol/lol.txt"
+
   )
   responseList.add(response4)
-   return responseList
+  return responseList
 }

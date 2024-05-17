@@ -1,13 +1,13 @@
 package com.example.instabugtask.repository
 
 import android.util.Log
-import com.example.instabugtask.api.ApiService
+import com.example.instabugtask.api.ApiServiceImpl
 import com.example.instabugtask.database.DatabaseHelper
 import com.example.instabugtask.domain.model.ResponseInfo
 import com.example.instabugtask.domain.repository.Repository
 import org.json.JSONObject
 
-class AppRepositoryImpl(val apiService: ApiService, val databaseHelper: DatabaseHelper) :
+class AppRepositoryImpl(val apiService: ApiServiceImpl, val databaseHelper: DatabaseHelper) :
   Repository {
   override fun executeGetApiRequest(
     inputUrl: StringBuilder,

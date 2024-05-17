@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,12 +24,16 @@ import com.example.instabugtask.ui.screens.main.model.RequestType
 
 @Composable
 fun CurlInputField(modifier: Modifier = Modifier, onUrlChange: (String) -> Unit, url: String) {
-  Column(modifier = modifier.clip(RoundedCornerShape(10.dp)).background(Color.Transparent), verticalArrangement = Arrangement.Center , horizontalAlignment = Alignment.CenterHorizontally) {
+  Column(modifier = modifier
+    .clip(RoundedCornerShape(10.dp))
+    .background(Color.Transparent), verticalArrangement = Arrangement.Center , horizontalAlignment = Alignment.CenterHorizontally) {
     MyTextField(
       value = url,
-      modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally),
-      label = "Enter URL Here",
-      placeholder = "https://example.com",
+      modifier = Modifier
+        .fillMaxWidth()
+        .align(Alignment.CenterHorizontally),
+      label = stringResource(R.string.enter_url_here),
+      placeholder = stringResource(R.string.website_example),
       onValueChanged = { onUrlChange(it) })
   }
 }
@@ -46,18 +51,18 @@ fun RequestChooseField(
     verticalAlignment = Alignment.CenterVertically
   ) {
     SelectableButton(
-      text = "GET",
+      text = stringResource(R.string.get_request_type),
       isSelected = requestType is RequestType.GetRequest,
       onClick = {
         onClick("get")
       })
     SelectableButton(
-      text = "POST",
+      text = stringResource(R.string.post_request),
       isSelected = requestType is RequestType.PostRequest,
       onClick = { onClick("post") })
 
     SelectableButton(
-      text = "POST WITH FILE",
+      text = stringResource(R.string.post_with_file_request),
       isSelected = requestType is RequestType.PostWithFileRequest,
       onClick = { onClick("post_with_file") })
 
@@ -79,20 +84,20 @@ fun AddHeaders(
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
       Column {
         MyTextField(
-          label = "Header Key",
+          label = stringResource(R.string.header_key_label),
           value = headerKey,
           placeholder = "",
           onValueChanged = { onHeaderKeyChange(it) })
         MyTextField(
           value = headerValue,
-          label = "Header Value",
+          label = stringResource(R.string.header_value_label),
           placeholder = "",
           onValueChanged = { onHeaderValueChanged(it) })
 
       }
       ActionButton(modifier = Modifier
         .align(Alignment.CenterVertically)
-        .padding(start = 5.dp), text = "Add", onClick = { onAddHeaderClick() })
+        .padding(start = 5.dp), text = stringResource(R.string.add_header_button), onClick = { onAddHeaderClick() })
     }
 
     if (addedHeaders.isNotEmpty()) {
@@ -117,21 +122,22 @@ fun AddRequestParameters(
   Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
     Column(modifier = Modifier) {
       MyTextField(
-        label = "Query Parameter",
+        label = stringResource(R.string.query_parameter_label),
         value = queryParam,
         modifier = Modifier,
         placeholder = "",
         onValueChanged = { onQueryParameterChange(it) })
       MyTextField(
         value = queryValue,
-        label = "Query Value",
+        label = stringResource(R.string.query_value_label),
         placeholder = "",
         onValueChanged = { onQueryValueChange(it) })
 
     }
-    ActionButton(modifier = Modifier.widthIn()
+    ActionButton(modifier = Modifier
+      .widthIn()
       .align(Alignment.CenterVertically)
-      .padding(start = 5.dp), text = "Add", onClick = { onAddClick() })
+      .padding(start = 5.dp), text = stringResource(R.string.add_query_button), onClick = { onAddClick() })
   }
 
 }
@@ -149,20 +155,20 @@ fun AddRequestBody(
   Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
     Column {
       MyTextField(
-        label = "Json Key",
+        label = stringResource(R.string.json_key_label),
         value = jsonKey,
         placeholder = "",
         onValueChanged = { onJsonKeyChange(it) })
       MyTextField(
         value = jsonValue,
-        label = "Json Value",
+        label = stringResource(R.string.json_value_label),
         placeholder = "",
         onValueChanged = { onJsonValueChange(it) })
 
     }
     ActionButton(modifier = Modifier
       .align(Alignment.CenterVertically)
-      .padding(start = 5.dp), text = "Add", onClick = { onAddClick() })
+      .padding(start = 5.dp), text = stringResource(R.string.add_json), onClick = { onAddClick() })
   }
 
 }
@@ -171,8 +177,8 @@ fun AddRequestBody(
 @Composable
 fun RunButton(modifier: Modifier = Modifier, onRunClick: () -> Unit, onClearClick: () -> Unit) {
   Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-    ActionButton(text = "Execute", onClick = { onRunClick() })
-    ActionButton(text = "Clear", onClick = { onClearClick() })
+    ActionButton(text = stringResource(R.string.execute_button), onClick = { onRunClick() })
+    ActionButton(text = stringResource(R.string.clear_button), onClick = { onClearClick() })
   }
 
 }

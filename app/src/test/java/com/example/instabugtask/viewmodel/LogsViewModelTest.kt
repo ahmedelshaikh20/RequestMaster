@@ -1,57 +1,68 @@
 package com.example.instabugtask.viewmodel
 
+import android.os.Handler
 import com.example.instabugtask.FakeRepository
 import com.example.instabugtask.ui.screens.logscreen.LogScreenEvents
+import io.mockk.mockk
 import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Before
+import java.util.concurrent.ExecutorService
 
 
+// Assuming these are global objects in your class
+private val executors = mockk<ExecutorService>()
+private val uiHandler = mockk<Handler>()
+
+// Mock the behavior of executors and uiHandler
+//every { executors.submit(any()) } answers { (args[0] as Runnable).run() }
+//every { uiHandler.post(any()) } answers { (args[0] as Runnable).run() }
 
 class LogsViewModelTest {
-private lateinit var fakeViewModel: LogsViewModel
+private lateinit var viewModel: LogsViewModel
 
   @Before
   fun setUp() {
-    fakeViewModel = LogsViewModel(FakeRepository())
+    viewModel = LogsViewModel(FakeRepository())
 
   }
+
 
 
   @Test
   fun `onEvent should update isGetChecked Correctly`() {
-    fakeViewModel.onEvent(LogScreenEvents.OnGetClick)
-    assertEquals(true, fakeViewModel.state.isGetChecked)
+    viewModel.onEvent(LogScreenEvents.OnGetClick)
+    assertEquals(true, viewModel.state.isGetChecked)
   }
 
   @Test
   fun `onEvent should update isPostChecked Correctly`() {
-    fakeViewModel.onEvent(LogScreenEvents.OnPostClick)
-    assertEquals(true, fakeViewModel.state.isPostChecked)
+    viewModel.onEvent(LogScreenEvents.OnPostClick)
+    assertEquals(true, viewModel.state.isPostChecked)
   }
 
   @Test
   fun `onEvent should update isSuccessChecked Correctly`() {
-    fakeViewModel.onEvent(LogScreenEvents.OnSuccessClick)
-    assertEquals(true, fakeViewModel.state.isSuccessChecked)
+    viewModel.onEvent(LogScreenEvents.OnSuccessClick)
+    assertEquals(true, viewModel.state.isSuccessChecked)
   }
 
   @Test
   fun `onEvent should update isFailureChecked Correctly`() {
-    fakeViewModel.onEvent(LogScreenEvents.OnFailClickClick)
-    assertEquals(true, fakeViewModel.state.isFailureChecked)
+    viewModel.onEvent(LogScreenEvents.OnFailClickClick)
+    assertEquals(true, viewModel.state.isFailureChecked)
   }
 
   @Test
   fun `onEvent should update isAscendingClicked Correctly`() {
-    fakeViewModel.onEvent(LogScreenEvents.OnAscendingOrderClick)
-    assertEquals(true, fakeViewModel.state.isAscendingClicked)
+    viewModel.onEvent(LogScreenEvents.OnAscendingOrderClick)
+    assertEquals(true, viewModel.state.isAscendingClicked)
   }
 
   @Test
   fun `nEvent should update isDescendingClicked Correctly`() {
-    fakeViewModel.onEvent(LogScreenEvents.OnDescendingOrderClick)
-    assertEquals(true, fakeViewModel.state.isDescendingClicked)
+    viewModel.onEvent(LogScreenEvents.OnDescendingOrderClick)
+    assertEquals(true, viewModel.state.isDescendingClicked)
   }
 
 

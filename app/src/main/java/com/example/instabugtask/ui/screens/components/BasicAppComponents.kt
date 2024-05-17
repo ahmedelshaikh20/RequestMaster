@@ -43,7 +43,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -76,7 +78,8 @@ fun BoldTextField(
     maxLines = 1,
     fontWeight = FontWeight.Bold,
     color = colorResource(id = R.color.black),
-    textAlign = textAlign
+    textAlign = textAlign,
+
   )
 }
 
@@ -201,7 +204,7 @@ fun SelectableButton(
 }
 
 @Composable
-fun ExpandableCard(responseInfo: ResponseInfo?, modifier: Modifier = Modifier) {
+fun ExpandableCard(responseInfo: ResponseInfo?,onFilePathClicked : (String)-> Unit ,modifier: Modifier = Modifier) {
   var cardExpandedState by remember { mutableStateOf(false) }
 
   Column(
@@ -210,13 +213,18 @@ fun ExpandableCard(responseInfo: ResponseInfo?, modifier: Modifier = Modifier) {
       .fillMaxWidth()
       .shadow(elevation = 4.dp, spotColor = Color(0x40000000), ambientColor = Color(0x40000000))
       .background(color = Color.White, shape = RoundedCornerShape(size = 10.dp))
-      .padding(15.dp)
+      .padding(15.dp) ,
   ) {
     BoldTextField(
-      value = if (responseInfo?.requestUrl != null) "${responseInfo.requestUrl}  ${responseInfo.responseStatus}" else "Request Details",
+      value = if (responseInfo?.requestUrl != null) "${responseInfo.requestUrl}" else stringResource(
+        R.string.request_details
+      ),
       size = 20.sp,
       color = Color.Black,
       textAlign = TextAlign.Start,
+
+
+
     )
     // Header
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -244,6 +252,7 @@ fun ExpandableCard(responseInfo: ResponseInfo?, modifier: Modifier = Modifier) {
       val fields = listOf(
         "Request Type" to responseInfo?.requestType.orEmpty(),
         "Request Url" to responseInfo?.requestUrl.orEmpty(),
+        "File Path" to responseInfo?.filePath,
         "Response Code" to responseInfo?.responseStatusCode.toString(),
         "Response Status" to responseInfo?.responseStatus.toString(),
         "Execution Time" to responseInfo?.executionTime.orEmpty(),
@@ -256,6 +265,16 @@ fun ExpandableCard(responseInfo: ResponseInfo?, modifier: Modifier = Modifier) {
       )
       Column {
         for ((key, value) in fields) {
+          if (key =="File Path" ){
+            Text(
+              text = "$key: $value",
+              modifier = Modifier
+                .padding(bottom = 4.dp)
+                .clickable {
+                  onFilePathClicked(value ?: "")
+                }
+            )
+          }
           Text(
             text = "$key: $value",
             modifier = Modifier.padding(bottom = 4.dp)
@@ -297,7 +316,7 @@ fun PopupView(
           horizontalArrangement = Arrangement.Center
         ) {
 
-          BasicButton(onClick = onClose, value = "Close")
+          BasicButton(onClick = onClose, value = stringResource(R.string.close_button))
 
         }
 
