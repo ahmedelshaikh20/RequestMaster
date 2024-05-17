@@ -10,13 +10,6 @@ import org.junit.Before
 import java.util.concurrent.ExecutorService
 
 
-// Assuming these are global objects in your class
-private val executors = mockk<ExecutorService>()
-private val uiHandler = mockk<Handler>()
-
-// Mock the behavior of executors and uiHandler
-//every { executors.submit(any()) } answers { (args[0] as Runnable).run() }
-//every { uiHandler.post(any()) } answers { (args[0] as Runnable).run() }
 
 class LogsViewModelTest {
 private lateinit var viewModel: LogsViewModel
