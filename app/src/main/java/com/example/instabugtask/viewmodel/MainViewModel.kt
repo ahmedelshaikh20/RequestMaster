@@ -53,13 +53,13 @@ class MainViewModel(private val repository: Repository) :
 
 
             if (!isValidUrl(state.url)) {
-              throw Exception("Invalid Url")
+              return showErrorMessage("Invalid Url")
             }
 
             runInBackground {
               try {
                 if (!NetworkUtils.checkNetworkAvailability())
-                  throw Exception("No internet Connection")
+                  return@runInBackground showErrorMessage("Check Network Connection")
                 val res =
                   repository.executeGetApiRequest(
                     StringBuilder(state.url),
@@ -92,7 +92,7 @@ class MainViewModel(private val repository: Repository) :
             runInBackground {
               try {
                 if (!NetworkUtils.checkNetworkAvailability())
-                  return@runInBackground showErrorMessage("Network Connection")
+                  return@runInBackground showErrorMessage("Check Network Connection")
                 state.requestBodyMap
                 val res = repository.executePostApiRequest(
                   (state.url),
@@ -124,9 +124,9 @@ class MainViewModel(private val repository: Repository) :
               try {
                 val fileDetails = currentFileDetails // Store currentFileDetails in a temporary variable
                 if (!NetworkUtils.checkNetworkAvailability())
-                  return@runInBackground showErrorMessage("Network Connection")
+                  return@runInBackground showErrorMessage("Check Network Connection")
                 if (fileDetails==null)
-                  return@runInBackground showErrorMessage("Network Connection")
+                  return@runInBackground showErrorMessage("Select File to Proceed")
                 else {
                 val res = repository.executePostApiRequestWithFile(
                       state.url,
@@ -242,7 +242,7 @@ class MainViewModel(private val repository: Repository) :
   fun showErrorMessage(message: String) {
     state = state.copy(
       showToastMessage = true,
-      currentToastMessage = message,
+      currentToastMessage = "ERROR : ${message}",
     )
   }
 

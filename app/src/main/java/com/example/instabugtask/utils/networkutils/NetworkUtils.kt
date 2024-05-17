@@ -27,22 +27,5 @@ object NetworkUtils {
   }
 }
 
-//private val READ_EXTERNAL_STORAGE_REQUEST_CODE = 101
-//fun checkStoragePermission(activity: MainActivity): Boolean {
-//  return if (ContextCompat.checkSelfPermission(
-//      activity,
-//      Manifest.permission.READ_EXTERNAL_STORAGE
-//    ) != PackageManager.PERMISSION_GRANTED
-//  ) {
-//    // Permission is not granted, request it
-//    ActivityCompat.requestPermissions(
-//      activity,
-//      arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-//      READ_EXTERNAL_STORAGE_REQUEST_CODE
-//    )
-//    false
-//  } else {
-//    true
-//  }
-//}
+
 

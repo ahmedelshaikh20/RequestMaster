@@ -1,7 +1,5 @@
 package com.example.instabugtask
 
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,7 +21,6 @@ import com.example.instabugtask.database.DatabaseHelper
 import com.example.instabugtask.navigation.Navigation
 import com.example.instabugtask.repository.AppRepositoryImpl
 import com.example.instabugtask.ui.theme.InstabugTaskTheme
-import com.example.instabugtask.utils.networkutils.NetworkBroadcastReceiver
 import com.example.instabugtask.utils.networkutils.NetworkUtils
 import com.example.instabugtask.viewmodel.LogsViewModel
 import com.example.instabugtask.viewmodel.LogsViewModelFactory
@@ -31,15 +28,14 @@ import com.example.instabugtask.viewmodel.MainViewModel
 import com.example.instabugtask.viewmodel.MainViewModelFactory
 
 class MainActivity : ComponentActivity() {
-  val networkBroadcastReceiver = NetworkBroadcastReceiver()
   lateinit var mainViewModel: MainViewModel
   lateinit var logViewModel: LogsViewModel
 
   override fun onCreate(savedInstanceState: Bundle?) {
 
-    NetworkUtils.init(this.applicationContext)
 
     super.onCreate(savedInstanceState)
+    NetworkUtils.init(this.applicationContext)
 
     val dbHandler = DatabaseHelper(this)
     val apiService = ApiServiceImpl()
@@ -72,15 +68,10 @@ class MainActivity : ComponentActivity() {
 
   override fun onStart() {
     super.onStart()
-    val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-    registerReceiver(networkBroadcastReceiver, intentFilter)
+
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
-    // We should unregisster the receiver to avoid memory leaks
-    unregisterReceiver(networkBroadcastReceiver)
-  }
+
 
 }
 
