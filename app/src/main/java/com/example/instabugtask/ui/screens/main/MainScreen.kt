@@ -63,26 +63,27 @@ LaunchedEffect(key1 = viewModel.state.showToastMessage ){
     )
     AddHeaders(headerKey = state.currentKey,
       headerValue = state.currentHeader,
-      modifier = Modifier.padding(10.dp),
+      modifier = Modifier.padding(10.dp).fillMaxWidth(),
       onHeaderKeyChange = { viewModel.onEvent(MainScreenUiEvents.HeaderKeyChanged(it)) },
       onHeaderValueChanged = { viewModel.onEvent(MainScreenUiEvents.HeaderValueChanged(it)) },
       onAddHeaderClick = { viewModel.onEvent(MainScreenUiEvents.OnAddHeaderClick) },
       addedHeaders = state.headers)
     AnimatedVisibility(visible = state.requestType == RequestType.GetRequest) {
-      Row(
+
+      Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Absolute.Center,
-        verticalAlignment = Alignment.CenterVertically
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
       ) {
         ActionButton(
           onClick = { viewModel.onEvent(MainScreenUiEvents.OnAddParameterButtonClicked) },
           text = "Add Parameters",
-          modifier = Modifier.align(Alignment.CenterVertically)
+          modifier = Modifier.align(Alignment.CenterHorizontally)
         )
-      }
-    }
+
+
     if (state.isAddParameterClicked) {
-      PopupView(onClose = { viewModel.onEvent(MainScreenUiEvents.OnAddParameterButtonClicked) }) {
+      PopupView(modifier = Modifier.padding(10.dp),onClose = { viewModel.onEvent(MainScreenUiEvents.OnAddParameterButtonClicked) }) {
         AddRequestParameters(queryValue = state.queryValue,
           queryParam = state.queryParameter,
           modifier = Modifier.padding(10.dp),
@@ -96,22 +97,22 @@ LaunchedEffect(key1 = viewModel.state.showToastMessage ){
           onQueryValueChange = { viewModel.onEvent(MainScreenUiEvents.QueryValueChanged(it)) },
           onAddClick = { viewModel.onEvent(MainScreenUiEvents.OnAddQueryClick) })
       }
-    }
+    }}}
 
     AnimatedVisibility(visible = state.requestType == RequestType.PostRequest) {
-      Row(
+      Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Absolute.Center,
-        verticalAlignment = Alignment.CenterVertically
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
       ) {
         ActionButton(
           onClick = { viewModel.onEvent(MainScreenUiEvents.OnAddJsonButtonClicked) },
           text = "Add Json Body",
-          modifier = Modifier.align(Alignment.CenterVertically)
+          modifier = Modifier.align(Alignment.CenterHorizontally)
         )
-      }
+
       if (state.isAddJsonBodyClicked) {
-        PopupView(onClose = { viewModel.onEvent(MainScreenUiEvents.OnAddJsonButtonClicked) }) {
+        PopupView(modifier = Modifier.padding(10.dp),onClose = { viewModel.onEvent(MainScreenUiEvents.OnAddJsonButtonClicked) }) {
 
 
           AddRequestBody(jsonKey = state.currentJsonKey,
@@ -128,7 +129,7 @@ LaunchedEffect(key1 = viewModel.state.showToastMessage ){
             onAddClick = { viewModel.onEvent(MainScreenUiEvents.OnAddJsonClick) })
         }
       }
-    }
+    }}
     AnimatedVisibility(visible = state.requestType == RequestType.PostWithFileRequest) {
       Row(
         modifier = Modifier.fillMaxWidth(),

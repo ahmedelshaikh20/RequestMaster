@@ -247,12 +247,12 @@ fun ExpandableCard(responseInfo: ResponseInfo?, modifier: Modifier = Modifier) {
         "Response Code" to responseInfo?.responseStatusCode.toString(),
         "Response Status" to responseInfo?.responseStatus.toString(),
         "Execution Time" to responseInfo?.executionTime.orEmpty(),
-        "Error" to (responseInfo?.error ?: "Empty"),
+        "Error" to (responseInfo?.error ?: ""),
         "Request Headers" to responseInfo?.requestHeaders.orEmpty(),
         "Response Headers" to responseInfo?.responseHeaders.orEmpty(),
-        "Request Body" to (responseInfo?.requestBody ?: "Empty"),
-        "Query Parameters" to (responseInfo?.queryParameters ?: "Empty"),
-        "Response Body" to (responseInfo?.responseBody ?: "Empty")
+        "Request Body" to (responseInfo?.requestBody ?: ""),
+        "Query Parameters" to (responseInfo?.queryParameters ?: ""),
+        "Response Body" to (responseInfo?.responseBody ?: "")
       )
       Column {
         for ((key, value) in fields) {
@@ -276,38 +276,31 @@ fun PopupView(
   AnimatedVisibility(
     visible = true,
   ) {
+
     Box(
       modifier = modifier
-        .fillMaxSize()
+        .fillMaxWidth()
+        .wrapContentHeight()
+        .border(width = 1.dp, brush = SolidColor(Color.White), shape = RoundedCornerShape(10.dp))
+        .clip(RoundedCornerShape(LocalSpacing.current.spaceSmall))
         .background(Color.Transparent)
-        .clip(RoundedCornerShape(15.dp))
-        .padding(LocalSpacing.current.spaceSmall),
-      contentAlignment = Alignment.Center
     ) {
-      Box(
+      Column(
         modifier = Modifier
-          .fillMaxWidth()
-          .wrapContentHeight()
-          .border(width = 1.dp, brush = SolidColor(Color.White), shape = RoundedCornerShape(10.dp))
-          .clip(RoundedCornerShape(LocalSpacing.current.spaceSmall))
-          .background(Color.Transparent)
+          .padding(LocalSpacing.current.spaceSmall)
+          .align(Alignment.Center)
       ) {
-        Column(
-          modifier = Modifier
-            .padding(LocalSpacing.current.spaceSmall)
-            .align(Alignment.Center)
+        content()
+        Spacer(modifier = Modifier.height(LocalSpacing.current.spaceSmall))
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.Center
         ) {
-          content()
-          Spacer(modifier = Modifier.height(LocalSpacing.current.spaceSmall))
-          Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-          ) {
 
-            BasicButton(onClick = onClose, value = "Close")
+          BasicButton(onClick = onClose, value = "Close")
 
-          }
         }
+
       }
     }
   }

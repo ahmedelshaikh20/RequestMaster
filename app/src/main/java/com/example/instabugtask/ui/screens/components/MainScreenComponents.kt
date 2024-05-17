@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -75,7 +76,7 @@ fun AddHeaders(
   onAddHeaderClick: () -> Unit
 ) {
   Column(modifier = modifier) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
       Column {
         MyTextField(
           label = "Header Key",
@@ -113,11 +114,12 @@ fun AddRequestParameters(
   modifier: Modifier = Modifier,
 
   ) {
-  Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
-    Column {
+  Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+    Column(modifier = Modifier) {
       MyTextField(
         label = "Query Parameter",
         value = queryParam,
+        modifier = Modifier,
         placeholder = "",
         onValueChanged = { onQueryParameterChange(it) })
       MyTextField(
@@ -127,7 +129,7 @@ fun AddRequestParameters(
         onValueChanged = { onQueryValueChange(it) })
 
     }
-    ActionButton(modifier = Modifier
+    ActionButton(modifier = Modifier.widthIn()
       .align(Alignment.CenterVertically)
       .padding(start = 5.dp), text = "Add", onClick = { onAddClick() })
   }
@@ -144,7 +146,7 @@ fun AddRequestBody(
   modifier: Modifier = Modifier,
 
   ) {
-  Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
+  Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
     Column {
       MyTextField(
         label = "Json Key",
