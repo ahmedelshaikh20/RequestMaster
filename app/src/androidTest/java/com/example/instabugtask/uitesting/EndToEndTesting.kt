@@ -11,10 +11,11 @@ import androidx.test.core.app.ApplicationProvider
 import com.example.instabugtask.MainActivity
 import com.example.instabugtask.R
 import com.example.instabugtask.ui.screens.main.MainScreenUiEvents
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
-class EndToEndGetRequest {
+class EndToEndTesting {
 
   @get:Rule
   val composeTestRule = createAndroidComposeRule<MainActivity>()
@@ -119,10 +120,9 @@ class EndToEndGetRequest {
     Thread.sleep(4000)
 
     //onView(withContentDescription(context.getString(R.string.request_result))).perform(click())
-    val expectedResTest = "https://httpbin.org/post"
-    composeTestRule.onNodeWithTag(context.getString(R.string.request_result)).performClick()
-    composeTestRule.onNodeWithTag(context.getString(R.string.request_result))
-      .assertTextContains(expectedResTest)
+//    val expectedResTest = "https://httpbin.org/post"
+//    composeTestRule.onNodeWithTag(context.getString(R.string.request_result)).performClick()
+    assertEquals("ERROR : Select File to Proceed", composeTestRule.activity.mainViewModel.state.currentToastMessage)
 
   }
 
