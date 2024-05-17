@@ -1,11 +1,13 @@
 package com.example.instabugtask.repository
 
+import android.net.Uri
 import android.util.Log
 import com.example.instabugtask.api.ApiServiceImpl
 import com.example.instabugtask.database.DatabaseHelper
 import com.example.instabugtask.domain.model.ResponseInfo
 import com.example.instabugtask.domain.repository.Repository
 import org.json.JSONObject
+import java.io.InputStream
 
 class AppRepositoryImpl(val apiService: ApiServiceImpl, val databaseHelper: DatabaseHelper) :
   Repository {
@@ -35,16 +37,20 @@ class AppRepositoryImpl(val apiService: ApiServiceImpl, val databaseHelper: Data
 
   override fun executePostApiRequestWithFile(
     inputUrl: String,
-    fileName: String?,
-    headers: Map<String, String>
+    fileStream: InputStream,
+    headers: Map<String, String>,
+    mime: String,
+    fileUri: Uri
   ): ResponseInfo {
-    val response = apiService.createApiPostRequestWithFileUpload(inputUrl, fileName, headers)
+    val response =
+      apiService.createApiPostRequestWithFileUpload(inputUrl, fileStream, headers, mime, fileUri)
+
     databaseHelper.addLog(response)
     Log.d("Successfully Added to the database", response.toString())
     return response
   }
 
-  override  fun getAllLogs(): List<ResponseInfo> {
+  override fun getAllLogs(): List<ResponseInfo> {
     return databaseHelper.getAllLogs()
   }
 

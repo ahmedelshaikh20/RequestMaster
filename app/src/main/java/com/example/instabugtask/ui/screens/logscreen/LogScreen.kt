@@ -1,6 +1,5 @@
 package com.example.instabugtask.ui.screens.logscreen
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -8,26 +7,19 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.instabugtask.ui.screens.components.ActionButton
-import com.example.instabugtask.ui.screens.components.BoldTextField
 import com.example.instabugtask.ui.screens.components.ExpandableCard
 import com.example.instabugtask.ui.screens.components.OptionComponent
 import com.example.instabugtask.utils.dimensions.LocalSpacing
@@ -93,8 +85,8 @@ fun LogScreen(viewModel: LogsViewModel, navController: NavHostController) {
         LocalSpacing.current.spaceSmall
       )
     ) {
-      items(state.currentLogs) {
-        ExpandableCard(onFilePathClicked = { openFile(context , it, openFileLauncher) },responseInfo = it)
+      items(state.currentLogs) {responseInfo ->
+        ExpandableCard(onFilePathClicked = { openFile(it, openFileLauncher) },responseInfo = responseInfo)
         Divider()
       }
     }
@@ -105,7 +97,6 @@ fun LogScreen(viewModel: LogsViewModel, navController: NavHostController) {
 
 }
 private fun openFile(
-  context: Context,
   filePath: String,
   openFileLauncher: ActivityResultLauncher<Intent>
 ) {

@@ -1,7 +1,9 @@
 package com.example.instabugtask.domain.repository
 
+import android.net.Uri
 import com.example.instabugtask.domain.model.ResponseInfo
 import org.json.JSONObject
+import java.io.InputStream
 
 interface Repository {
    fun executeGetApiRequest(
@@ -17,9 +19,11 @@ interface Repository {
   ): ResponseInfo
 
    fun executePostApiRequestWithFile(
-    inputUrl: String,
-    fileName: String?,
-    headers: Map<String, String>,
+     inputUrl: String,
+     fileStream: InputStream,
+     headers: Map<String, String>,
+     mime: String,
+     fileUri : Uri
   ): ResponseInfo
 
 

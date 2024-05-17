@@ -1,5 +1,6 @@
 package com.example.instabugtask.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import android.webkit.URLUtil
 import androidx.compose.runtime.getValue
@@ -11,10 +12,12 @@ import com.example.instabugtask.domain.repository.Repository
 import com.example.instabugtask.ui.screens.main.MainScreenUiEvents
 import com.example.instabugtask.ui.screens.main.getEmptyState
 import com.example.instabugtask.ui.screens.main.model.RequestType
+import com.example.instabugtask.utils.model.FileDetails
 import com.example.instabugtask.utils.networkutils.NetworkUtils
 import com.example.instabugtask.utils.threadutils.runInBackground
 import com.example.instabugtask.utils.threadutils.runInUiThread
 import org.json.JSONObject
+import java.io.InputStream
 import java.net.UnknownHostException
 
 
@@ -22,7 +25,7 @@ class MainViewModel(private val repository: Repository) :
   ViewModel() {
 
   var state by mutableStateOf(getEmptyState())
-
+  var currentFileDetails : FileDetails? =null
 
   fun onEvent(event: MainScreenUiEvents) {
     when (event) {
@@ -116,20 +119,31 @@ class MainViewModel(private val repository: Repository) :
             if (!isValidUrl(state.url)) {
               return showErrorMessage("Invalid Url")
             }
+
             runInBackground {
               try {
+                val fileDetails = currentFileDetails // Store currentFileDetails in a temporary variable
                 if (!NetworkUtils.checkNetworkAvailability())
                   return@runInBackground showErrorMessage("Network Connection")
-                val res =
-                  repository.executePostApiRequestWithFile(state.url, state.filePath, state.headers)
+                if (fileDetails==null)
+                  return@runInBackground showErrorMessage("Network Connection")
+                else {
+                val res = repository.executePostApiRequestWithFile(
+                      state.url,
+                      fileDetails.fileStream,
+                      state.headers,
+                      fileDetails.fileMime,
+                      fileDetails.fileUri
+                    )
+
                 runInUiThread {
                   state = state.copy(
                     showToastMessage = true,
                     currentToastMessage = "Success Post Request",
                     currentRequest = res
                   )
-                }
-              }catch (e: UnknownHostException) {
+                }}
+              } catch (e: UnknownHostException) {
                 showErrorMessage("Failed Post :  UnKnown Host")
               } catch (e: Throwable) {
                 showErrorMessage(e.message.toString())
@@ -203,8 +217,8 @@ class MainViewModel(private val repository: Repository) :
       }
 
       is MainScreenUiEvents.onFileChossen -> {
-        state = state.copy(filePath = event.filePath)
-        Log.d("Current Path", state.filePath.toString())
+       currentFileDetails = FileDetails(fileStream = event.fileStream , fileMime = event.mime , fileUri = event.uri)
+        state =state.copy(showToastMessage = true , currentToastMessage = "File Selected Successfully")
       }
     }
   }
@@ -228,7 +242,7 @@ class MainViewModel(private val repository: Repository) :
   fun showErrorMessage(message: String) {
     state = state.copy(
       showToastMessage = true,
-      currentToastMessage = "${message}",
+      currentToastMessage = message,
     )
   }
 

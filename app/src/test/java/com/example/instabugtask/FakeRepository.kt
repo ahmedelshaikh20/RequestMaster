@@ -1,14 +1,17 @@
 package com.example.instabugtask
 
+import android.net.Uri
 import com.example.instabugtask.domain.model.ResponseInfo
 import com.example.instabugtask.domain.repository.Repository
 import org.json.JSONObject
+import java.io.InputStream
 
 class FakeRepository : Repository {
   override fun executeGetApiRequest(
     inputUrl: StringBuilder,
     headers: Map<String, String>,
     querys: Map<String, String>?
+
   ): ResponseInfo {
     return ResponseInfo(
       requestBody = "",
@@ -50,11 +53,13 @@ class FakeRepository : Repository {
 
   override fun executePostApiRequestWithFile(
     inputUrl: String,
-    fileName: String?,
-    headers: Map<String, String>
+    fileStream: InputStream,
+    headers: Map<String, String>,
+    mime: String,
+    fileUri : Uri
   ): ResponseInfo {
     return ResponseInfo(
-      requestBody = fileName ?: "",
+      requestBody = fileUri.toString() ?: "",
       responseStatusCode = 404,
       responseBody = "Mock Response",
       requestType = "POST",

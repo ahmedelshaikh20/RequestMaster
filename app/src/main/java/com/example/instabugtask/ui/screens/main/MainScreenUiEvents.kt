@@ -1,5 +1,8 @@
 package com.example.instabugtask.ui.screens.main
 
+import android.net.Uri
+import java.io.InputStream
+
 sealed class MainScreenUiEvents {
 
 
@@ -12,7 +15,7 @@ sealed class MainScreenUiEvents {
   data class FileNameChanged(val filePath: String) : MainScreenUiEvents()
   data class JsonKeyChange(val jsonKey: String) : MainScreenUiEvents()
   data class JsonValueChanged(val jsonValue: String) : MainScreenUiEvents()
-  data class onFileChossen(val filePath: String) : MainScreenUiEvents()
+  data class onFileChossen(val fileStream: InputStream ,val uri : Uri , val mime : String) : MainScreenUiEvents()
 
 
   // ---

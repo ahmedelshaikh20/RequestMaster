@@ -1,9 +1,7 @@
 package com.example.instabugtask.ui.screens.main
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -39,20 +37,23 @@ import com.example.instabugtask.ui.screens.components.RequestChooseField
 import com.example.instabugtask.ui.screens.components.RunButton
 import com.example.instabugtask.ui.screens.main.model.RequestType
 import com.example.instabugtask.viewmodel.MainViewModel
-import java.io.File
 
 @Composable
 fun MainScreen(viewModel: MainViewModel, navController: NavController) {
   val context = LocalContext.current
   val filePickerLauncher =
     rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-
-      viewModel.onEvent(
-        MainScreenUiEvents.onFileChossen(
-         File(uri?.path).absolutePath
+      if (uri != null) {
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val mime = context.contentResolver.getType(uri)
+        viewModel.onEvent(
+          MainScreenUiEvents.onFileChossen(
+            fileStream = inputStream!!,
+            uri = uri,
+            mime.orEmpty()
+          )
         )
-      )
-      Log.d("MainScreen" , viewModel.state.filePath.toString() )
+      }
     }
 
   val state = viewModel.state
@@ -60,9 +61,11 @@ fun MainScreen(viewModel: MainViewModel, navController: NavController) {
     rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
       if (isGranted) {
         filePickerLauncher.launch("*/*")
-
       } else {
-        Toast.makeText(context,"Storage Permission Needed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+          context,
+          context.getString(R.string.storage_permission_needed), Toast.LENGTH_SHORT
+        ).show()
 
       }
     }
@@ -191,7 +194,7 @@ fun MainScreen(viewModel: MainViewModel, navController: NavController) {
     )
     ExpandableCard(
       state.currentRequest,
-      onFilePathClicked = { openFile(context, it, openFileLauncher) },
+      onFilePathClicked = { openFile(it, openFileLauncher) },
       modifier = Modifier
         .padding(10.dp)
         .testTag(stringResource(id = R.string.request_result)),
@@ -209,7 +212,6 @@ fun MainScreen(viewModel: MainViewModel, navController: NavController) {
 }
 
 private fun openFile(
-  context: Context,
   filePath: String,
   openFileLauncher: ActivityResultLauncher<Intent>
 ) {

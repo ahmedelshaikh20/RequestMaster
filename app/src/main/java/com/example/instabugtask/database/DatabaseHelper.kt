@@ -10,6 +10,7 @@ import com.example.instabugtask.database.RequestsTable.DB_VERSION
 import com.example.instabugtask.database.RequestsTable.DROP_TABLE
 import com.example.instabugtask.database.RequestsTable.ERROR
 import com.example.instabugtask.database.RequestsTable.EXECUTION_TIME
+import com.example.instabugtask.database.RequestsTable.FILE_PATH
 import com.example.instabugtask.database.RequestsTable.QUERY_PARAMETERS
 import com.example.instabugtask.database.RequestsTable.REQUEST_BODY
 import com.example.instabugtask.database.RequestsTable.REQUEST_HEADERS
@@ -99,53 +100,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
     }
     return apiLogs
   }
-//
-//  fun filterLogsWithResponseStatus(responseStatus : String): List<ResponseInfo> {
-//    val ApiLogs = ArrayList<ResponseDb>()
-//    val db = writableDatabase
-//    val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $RESPONSE_STATUS ==$responseStatus", null)
-//    if (cursor != null) {
-//      if (cursor.moveToFirst()) {
-//        do {
-//          ApiLogs.add(cursor.toResponseDb())
-//        } while (cursor.moveToNext())
-//      }
-//    }
-//    cursor.close()
-//    return ApiLogs
-//  }
 
-//  fun filterLogsWithRequestType(requestType : String): List<ResponseInfo> {
-//    val apiLogs = ArrayList<ResponseDb>()
-//    val db = writableDatabase
-//    val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $REQUEST_TYPE ==$requestType", null)
-//    if (cursor != null) {
-//      if (cursor.moveToFirst()) {
-//        do {
-//          apiLogs.add(cursor.toResponseDb())
-//        } while (cursor.moveToNext())
-//      }
-//    }
-//    cursor.close()
-//    return apiLogs
-//  }
-
-//  fun filterLogsWithExecutionTime(executionTime : String): List<ResponseInfo> {
-//    val apiLogs = ArrayList<ResponseDb>()
-//    val db = writableDatabase
-//    val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $EXECUTION_TIME ==$executionTime", null)
-//    if (cursor != null) {
-//      if (cursor.moveToFirst()) {
-//        do {
-//          apiLogs.add(cursor.toResponseDb())
-//        } while (cursor.moveToNext())
-//      }
-//    }
-//    cursor.close()
-//    return apiLogs
-//  }
-//
-//}
 
 
   private fun fillValues(response: ResponseDb): ContentValues {
@@ -161,6 +116,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
       put(ERROR , response.error)
       put(QUERY_PARAMETERS , response.queryParameters)
       put(REQUEST_HEADERS , response.requestHeaders)
+      put(FILE_PATH , response.filePath)
+
+
     }
   }
 }

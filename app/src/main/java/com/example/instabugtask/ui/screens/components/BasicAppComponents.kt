@@ -274,13 +274,13 @@ fun ExpandableCard(responseInfo: ResponseInfo?,onFilePathClicked : (String)-> Un
                   onFilePathClicked(value ?: "")
                 }
             )
-          }
+          }else {
           Text(
             text = "$key: $value",
             modifier = Modifier.padding(bottom = 4.dp)
           )
           Divider()
-        }
+        }}
       }
     }
   }
