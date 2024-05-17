@@ -1,6 +1,7 @@
 package com.example.instabugtask.api
 
 import android.util.Log
+import com.example.instabugtask.api.model.ApiService
 import com.example.instabugtask.api.model.Response
 import com.example.instabugtask.api.model.toDomain
 import com.example.instabugtask.domain.model.ResponseInfo
@@ -15,10 +16,10 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class ApiService() {
+class ApiServiceImpl:ApiService {
 
   //GET REQUEST WITH QUERY PARAMETERS
-  fun createApiGetRequest(
+  override fun createApiGetRequest(
     inputUrl: StringBuilder,
     headers: Map<String, String>,
     queries: Map<String, String>?
@@ -72,7 +73,8 @@ class ApiService() {
       error = error,
       queryParameters = queries.toString(),
       responseHeaders = httpURLConnection.headerFields.toString(),
-      responseStatus = responseStatus
+      responseStatus = responseStatus,
+      filePath = ""
     )
     httpURLConnection.disconnect()
 
@@ -81,7 +83,7 @@ class ApiService() {
 
   }
 
-  fun createApiPostRequest(
+  override fun createApiPostRequest(
     inputUrl: String,
     headers: Map<String, String>,
     requestBody: JSONObject?
@@ -136,7 +138,8 @@ class ApiService() {
       error = error,
       queryParameters = "",
       responseHeaders = httpURLConnection.headerFields.toString(),
-      responseStatus = responseStatus
+      responseStatus = responseStatus,
+      filePath = ""
     )
 
     httpURLConnection.disconnect()
@@ -145,7 +148,7 @@ class ApiService() {
 
   }
 
-  fun createApiPostRequestWithFileUpload(
+  override fun createApiPostRequestWithFileUpload(
     inputUrl: String,
     filePath: String?,
     headers: Map<String, String>
@@ -214,7 +217,8 @@ class ApiService() {
       error = error,
       queryParameters = "",
       responseHeaders = httpURLConnection.headerFields.toString(),
-      responseStatus = responseStatus
+      responseStatus = responseStatus,
+      filePath = filePath
     )
 
     httpURLConnection.disconnect()
