@@ -15,8 +15,9 @@ It was a really interesting task i loved creating the app and the challenges I f
 
 - MVVM Architecture: The Arch promotes reusability of code, greatly simplifying the process of creating simple user interfaces
 - Jetpack Compose: Using Modern Tech of Jetpack Compose.
-- httpUrlConnection: Used hilt for Handling all requests.
+- httpUrlConnection: Used for Handling all requests.
 - Sqlite: Used to cache responses and requests.
+
 
 # Api Service 
 
@@ -62,11 +63,11 @@ Since We are Done Now with our data layer it turns to create a domain layer whic
 
 # Viewmodel 
 I created view models based on events and states each View model contains a state so as simple as that if any event occurs in the UI like user interaction or whatever we update the state with changes
-so for each view model, I created one data class for handling states and one sealed class for holding all possible events in the app.
+so for each view model, there is one state and one function called onEvent() Responding to All Possible Events coming from the UI
 
-*I have two challenges, in that case, how am gonna run repo functions in the background thread (As we are doing tasks that could take a long time to execute so it can block our UI Thread ) if i can do so, how i am gonna interact from the thread to update our Ui with new state*
+*I have two challenges, in that case, how am gonna run repo functions in the background thread (As we are doing tasks that could take a long time to execute so it can block our UI Thread ) if I can do so, how I am gonna interact from the thread to update our Ui with new state*
 
-So After a search, I found a way to run a block in the background thread which is *Executors* in Java 
+So After a search, I found a way to run a block in the background thread which is *Executors* in Java which will give us the necessary threads as needed.
 
 1. So I created  an instance of executor and function to submit any block of code in it.
 ```kotlin
@@ -88,7 +89,10 @@ fun runInUiThread(block: () -> Unit) {
 
 # UI Screens 
 
-I built the UI with Jetpack compose I built only 2 screens one for executing requests and one for listing all of them 
+I built the UI with Jetpack compose I built only 2 screens one for executing requests and one for listing all of the logs.
+
+For each screen, I created one data class as screen state and one sealed class for holding all possible events in the app.
+
 
 |                   Main Screen                        |                   Logs Screen                      |                     
 |:----------------------------------------------------:|:--------------------------------------------------:|
