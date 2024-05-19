@@ -34,7 +34,7 @@ So Now let's start to figure out how the HTTPURLConnection works:
 ```
 3. Set Request Method & Request Headers (Optional): Default Request Type is GET
 
-5. Now we come with the part of sending and receiving data , if we want to send data we get the output stream from the connection and if we want to receive data we get the input stream from the connection.
+5. Now we come with the part of sending and receiving data, if we want to send data we get the output stream from the connection and if we want to receive data we get the input stream from the connection.
 
 6. Now the request is done then we map results to our API response model
 
@@ -65,9 +65,19 @@ Since We are Done Now with our data layer it turns to create a domain layer whic
 I created view models based on events and states each View model contains a state so as simple as that if any event occurs in the UI like user interaction or whatever we update the state with changes
 so for each view model, there is one state and one function called onEvent() Responding to All Possible Events coming from the UI
 
-*I have two challenges, in that case, how am gonna run repo functions in the background thread (As we are doing tasks that could take a long time to execute so it can block our UI Thread ) if I can do so, how I am gonna interact from the thread to update our Ui with new state*
 
-So After a search, I found a way to run a block in the background thread which is *Executors* in Java which will give us the necessary threads as needed.
+*I have two challenges, in that case, how am gonna run repo functions in the background thread (As we are doing tasks that could take a long time to execute so it can block our UI Thread ) if I can do so, how I am gonna interact from the thread to update our Ui with new state (As we know we cannot interact with UI directly from the background thread)*
+
+
+The easy solution we can do is to call 
+```kotlin
+thread(start = true) {
+ // your block of code here 
+}
+```
+But that way is not optimal as each time we run a background task we will create a new Thread which is not effective as creating a thread is an overhead and can slow the execution of the app so we need another solution.
+
+So There are several ways of doing tasks in the background thread without coroutine and without creating a new thread each time (Async task, Work Manager and Executor ), We cannot use the async task as it's deprecated So I decided to run a block in the background thread with *Executors* in Java with CachedThreadPool (Creates a thread pool that creates new threads as needed, but will reuse previously constructed threads when they are available.)
 
 1. So I created  an instance of executor and function to submit any block of code in it.
 ```kotlin
@@ -84,8 +94,10 @@ private val uiHandler = Handler(Looper.getMainLooper())
 fun runInUiThread(block: () -> Unit) {
   uiHandler.post(block)
 }
-
 ```
+
+*Note: In my case, I am using state and events so even if we didn't use runInUiThread the code will still work . Why ? Cause the background thread in that case doesn't interact with the UI directly it update the state and the state update UI.*
+
 
 # UI Screens 
 
