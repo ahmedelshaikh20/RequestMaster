@@ -7,9 +7,9 @@ Android Coding Task For Instabug
 
 # Overview
 
-When I got the task and while reading it first I started off thinking, "Piece of cake!" But then, BAM! The notes hit me "No third-party libraries allowed". 
+- When I got the task and while reading it first I started off thinking, "Piece of cake!" But then, BAM! The notes hit me "No third-party libraries allowed". 
 
-It was a really interesting task i loved creating the app and the challenges I faced 
+- It was a really interesting task i loved creating the app and the challenges I faced 
 
 # Tech Stacks
 
@@ -42,7 +42,7 @@ So Now let's start to figure out how the HTTPURLConnection works:
 ```kotlin
     httpurlconnection.disconnect()
 ```
-*If you Wondered like me at first where actually the connection starts I got you, after a quick search I found that httpurlconnection starts the connection when we try to get stream for receiving or sending data*
+*If you Wondered like me at first where actually the connection starts I got you, after a quick search I found that httpurlconnection starts the connection when we try to get the stream for receiving or sending data*
 
 As Simple as that I finished Creating 3 methods for requests one for GET Requests, POST with JSON Body and one for File UPLOAD
 
@@ -87,7 +87,9 @@ fun runInBackground(block: () -> Unit) {
   executors.submit(block)
 }
 ```
-2. And for the UI thread I created uiHanlder this allows us to post and process messages on the main thread's message queue, which is essential for updating the UI from background threads.
+2. As we know each thread has exactly one looper so when We create a handler with Looper.getMainLooper() that means we associate that handler to post any blocks or messages in the Messaging Queue of the UI thread.
+3. For the UI thread I created uiHanlder this allows us to post and process messages on the main thread's message queue, which is essential for updating the UI from background threads.
+
 ```kotlin
 private val uiHandler = Handler(Looper.getMainLooper())
 
@@ -96,7 +98,7 @@ fun runInUiThread(block: () -> Unit) {
 }
 ```
 
-*Note: In my case, I am using state and events so even if we didn't use runInUiThread the code will still work . Why ? Cause the background thread in that case doesn't interact with the UI directly it update the state and the state update UI.*
+*Note: In my case, I am using state and events so even if we didn't use runInUiThread the code will still work. Why? Cause the background thread in that case doesn't interact with the UI directly it updates the state and the state updates UI.*
 
 
 # UI Screens 
