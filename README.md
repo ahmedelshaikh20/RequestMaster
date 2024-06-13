@@ -1,13 +1,11 @@
-<h1 align="center"> Building Api Requests App without any third-party library </h1>
+<h1 align="center">RequestMaster - Native API Handler</h1>
 
 
 
 
 # Overview
 
-- Building Api Requests App without Retrofit and any third-party library.
-- It was a really interesting task i loved creating the app and the challenges I faced
-- Implemented Methods: GET , POST, POST with File Upload 
+- ApiMate is a powerful and lightweight Android application designed to manage and execute HTTP API requests without relying on any third-party libraries. Built using modern technologies and best practices, ApiMate offers a robust solution for developers who need to interact with APIs using GET, POST, and File Upload methods.
 
 # Tech Stacks
 
