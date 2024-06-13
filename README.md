@@ -1,15 +1,13 @@
-<h1 align="center">Instabug Android Task</h1>
+<h1 align="center"> Building Api Requests App without any third-party library </h1>
 
-<p align="center">
-Android Coding Task For Instabug
 
 
 
 # Overview
 
-- When I got the task and while reading it first I started off thinking, "Piece of cake!" But then, BAM! The notes hit me "No third-party libraries allowed". 
-
-- It was a really interesting task i loved creating the app and the challenges I faced 
+- Building Api Requests App without Retrofit and any third-party library.
+- It was a really interesting task i loved creating the app and the challenges I faced
+- Implemented Methods: GET , POST, POST with File Upload 
 
 # Tech Stacks
 
