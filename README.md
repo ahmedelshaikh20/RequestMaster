@@ -5,7 +5,7 @@
 
 # Overview
 
-- ApiMate is a powerful and lightweight Android application designed to manage and execute HTTP API requests without relying on any third-party libraries. Built using modern technologies and best practices, ApiMate offers a robust solution for developers who need to interact with APIs using GET, POST, and File Upload methods.
+- RequestMaster is a powerful and lightweight Android application designed to manage and execute HTTP API requests without relying on any third-party libraries. Built using modern technologies and best practices, ApiMate offers a robust solution for developers who need to interact with APIs using GET, POST, and File Upload methods.
 
 # Tech Stacks
 
